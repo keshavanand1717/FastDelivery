@@ -1,0 +1,16 @@
+{% extends 'customer/base.html' %}
+
+{% block main %}
+
+{% url 'customer:current_jobs' as current_jobs_url %}
+{% url 'archived:archived_jobs' as archived_jobs_url %}
+<ul class="nav nav-pills nav-fill">
+    <li class="nav-item">
+      <a class="nav-link {% if request.path == current_jobs_url %}active{% endif %}" href="{% url 'customer:current_jobs' %}">Current Job</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.path == archived_jobs_url %}active{% endif %}" href="{% url 'customer:archived_jobs' %}">Archived Job</a>
+      </li>
+   
+  </ul>
+{% endblock %}
