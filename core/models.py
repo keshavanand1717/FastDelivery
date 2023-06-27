@@ -59,17 +59,24 @@ class Job(models.Model):
 
     #Step 2
     pickup_address = models.CharField(max_length=255, blank=True)
-    pickup_lat = models.FloatField(default=0)
-    pickup_lng = models.FloatField(default=0)
+    # pickup_lat = models.FloatField(default=0)
+    # pickup_lng = models.FloatField(default=0)
     pickup_name = models.CharField(max_length=255, blank=True)
     pickup_phone = models.CharField(max_length=50, blank=True)
 
     #Step 3
     delivery_address = models.CharField(max_length=255, blank=True)
-    delivery_lat = models.FloatField(default=0)
-    delivery_lng = models.FloatField(default=0)
+    # delivery_lat = models.FloatField(default=0)
+    # delivery_lng = models.FloatField(default=0)
     delivery_name = models.CharField(max_length=255, blank=True)
     delivery_phone = models.CharField(max_length=50, blank=True)
+
+    # Extra Info
+    pickup_photo = models.ImageField(upload_to='job/pickup_photos/', null=True, blank=True)
+    pickuedup_at = models.DateTimeField(null=True,blank=True)
+
+    delivery_photo = models.ImageField(upload_to='job/delivery_photos/', null=True, blank=True)
+    delivered_at = models.DateTimeField(null=True,blank=True)
 
     def __str__(self):
         return self.name

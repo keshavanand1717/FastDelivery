@@ -109,6 +109,16 @@ def create_job_page(request):
     step2_form = forms.JobCreateStep2Form(instance=creating_job)
     step3_form = forms.JobCreateStep3Form(instance=creating_job)
 
+    #Determine the current step
+    if not creating_job:
+        current_step = 1
+    elif creating_job.delivery_name:
+        current_step = 4
+    elif creating_job.pickup_name:
+        current_step = 3    
+    else:
+        current_step = 2
+
     if request.method == "POST":
         if request.POST.get('step') == '1':
             step1_form = forms.JobCreateStep1Form(request.POST,request.FILES,instance = creating_job)
@@ -125,20 +135,15 @@ def create_job_page(request):
 
         elif request.POST.get('step') == '3':
             step3_form = forms.JobCreateStep3Form(request.POST, instance=creating_job)
+            creating_job.status = Job.PROCESSING_STATUS
+            creating_job.save()
+            
             if step3_form.is_valid():
                 creating_job = step3_form.save()
-                return redirect(reverse('customer:create_job'))
+                return redirect(reverse('customer:current_jobs'))
         elif request.POST.get('step') == '4':
-            return redirect(reverse('customer:home'))
-    #Determine the current step
-    if not creating_job:
-        current_step = 1
-    elif creating_job.delivery_name:
-        current_step = 4
-    elif creating_job.pickup_name:
-        current_step = 3    
-    else:
-        current_step = 2
+            return redirect(reverse('customer:current_jobs'))
+    
 
     return render(request, 'customer/create_job.html',{
          "job":creating_job,
@@ -175,4 +180,17 @@ def archived_jobs_page(request):
     )
     return render(request, 'customer/jobs.html', {
         "jobs": jobs
+    })
+
+@login_required(login_url="sign-in/?next=/customer/")
+def job_page(request, job_id):
+    job = Job.objects.get(id=job_id)
+
+    if request.method == "POST" and job.status == Job.PROCESSING_STATUS:
+        job.status = Job.CANCELED_STATUS
+        job.save()
+        return redirect(reverse('customer:archived_jobs'))
+
+    return render(request, 'customer/job.html',{
+        "job": job
     })
