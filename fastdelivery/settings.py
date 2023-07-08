@@ -141,3 +141,6 @@ EMAIL_FROM_EMAIL = 'Fast Parcel <no-reply@fastdelivery.localhost>'
 
 STRIPE_API_PUBLIC_KEY = "pk_test_51NDrKcSGHVIXkaXRSzkFxTMAthmhExzdLq2TUwZqNhZVTt4r2ruaRRcDI3tljC4DDCSjf3BRNwFLLgUOkpMe7rje00U3hBmAfZ"
 STRIPE_API_SECRET_KEY = "sk_test_51NDrKcSGHVIXkaXRXwV7BH5bo6lTh1K8UzGyB9N5i8mGKldtTFv8S6LCxFvAUA6EMnMnjNXpdJky8tX6ZBMCUvSo00n8vI4kul"
+
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
