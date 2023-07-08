@@ -12,7 +12,7 @@ from core.models import *
 stripe.api_key = settings.STRIPE_API_SECRET_KEY
 
 # Create your views here.
-@login_required()
+@login_required(login_url="/sign-in/?next=/customer/")
 def home(request):
     return redirect(reverse('customer:profile'))
 
